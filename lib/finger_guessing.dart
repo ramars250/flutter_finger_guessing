@@ -28,6 +28,7 @@ class _FingerGuessing extends State<FingerGuessing> {
 
   //我方勝場
   int youWin = 0;
+
   //單局勝負變數
   String winText = '';
 
@@ -37,17 +38,14 @@ class _FingerGuessing extends State<FingerGuessing> {
         tapIndex == 2 && cpuIndex == 1 ||
         tapIndex == 3 && cpuIndex == 2) {
       winText = 'You Win!';
-      // print('You Win');
       youWin += 1;
     } else {
       if (tapIndex == 1 && cpuIndex == 1 ||
           tapIndex == 2 && cpuIndex == 2 ||
           tapIndex == 3 && cpuIndex == 3) {
         winText = '平手';
-        // print('平手');
       } else {
         winText = 'CPU Win!';
-        // print('You Lose');
         cpuWin += 1;
       }
     }
@@ -66,8 +64,10 @@ class _FingerGuessing extends State<FingerGuessing> {
       }
     }
   }
+
   //按鈕文字
   String buttonText = '對決';
+
   //重置所有變數
   void resetAllData() {
     cpuWin = 0;
@@ -164,7 +164,10 @@ class _FingerGuessing extends State<FingerGuessing> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(winText, style: const TextStyle(fontSize: 20),),
+                      child: Text(
+                        winText,
+                        style: const TextStyle(fontSize: 20),
+                      ),
                     ),
                   ],
                 ),
@@ -207,6 +210,7 @@ class _FingerGuessing extends State<FingerGuessing> {
               ],
             ),
           ),
+          //顯示結果處
           Padding(
             padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: Container(
@@ -215,14 +219,18 @@ class _FingerGuessing extends State<FingerGuessing> {
               width: MediaQuery.of(context).size.width,
               child: Text(
                 sentence,
-                style: const TextStyle(fontSize: 16),
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
               ),
             ),
           ),
           //我方文字
           const Text(
             '你的選擇',
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(
+              fontSize: 16,
+            ),
           ),
           //我方圖片
           Container(
@@ -267,7 +275,8 @@ class _FingerGuessing extends State<FingerGuessing> {
               },
             ),
           ),
-          //點擊後可開始對決
+          //點擊後可開始對決，當輸贏文字不為空的時候，按鈕顯示文字為重新開始且按下時將各變數重置
+          //否則執行if的內容，如果點選後的變數不為0，按鈕文字就顯示為對決，否則顯示為請選擇
           sentence != ''
               ? ElevatedButton(
                   onPressed: () {

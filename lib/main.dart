@@ -5,7 +5,7 @@ void main() {
   return runApp(MaterialApp(
     home: Scaffold(
       appBar: AppBar(
-        title: const Text('遊戲大全'),
+        title: const Text('猜拳遊戲'),
         centerTitle: true,
       ),
       body: const FingerGuessing(),
