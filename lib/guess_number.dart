@@ -11,6 +11,10 @@ class _GuessNumberState extends State<GuessNumber> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('終極密碼'),
+        centerTitle: true,
+      ),
       body: Column(
         children: [
           Padding(

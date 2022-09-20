@@ -80,6 +80,10 @@ class _FingerGuessing extends State<FingerGuessing> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('猜拳遊戲'),
+        centerTitle: true,
+      ),
       body: Column(
         children: [
           //電腦方文字
