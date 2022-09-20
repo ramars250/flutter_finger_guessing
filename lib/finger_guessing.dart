@@ -2,7 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class FingerGuessing extends StatefulWidget {
-  const FingerGuessing({super.key});
+  const FingerGuessing({Key? key}) : super(key: key);
+
 
   @override
   State<FingerGuessing> createState() => _FingerGuessing();

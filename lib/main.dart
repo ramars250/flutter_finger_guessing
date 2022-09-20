@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         '/': (context) => const FirstIndex(),
-        '/page1': (context) => const FingerGuessing(),
+        '/page1': (context) => FingerGuessing(),
         '/page2': (context) => const GuessNumber(),
         '/page3': (context) => const Dice(),
       },

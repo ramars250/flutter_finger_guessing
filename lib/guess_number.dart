@@ -24,6 +24,7 @@ class _GuessNumberState extends State<GuessNumber> {
 
   //右邊的數字變數
   int bigNumber = 100;
+
   //獲取輸入值
   String getInput = '';
 
@@ -34,13 +35,21 @@ class _GuessNumberState extends State<GuessNumber> {
       if (guessNumber < randomNumber) {
         smallNumber = guessNumber;
       } else {
-        bigNumber = guessNumber;
+        if (guessNumber > randomNumber) {
+          bigNumber = guessNumber;
+        } else {
+          sentence = '猜中了';
+        }
       }
     });
   }
 
+  //結束文字
+  String sentence = '';
+
   //焦點變化
   FocusNode focusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
@@ -50,6 +59,7 @@ class _GuessNumberState extends State<GuessNumber> {
       });
     });
   }
+
   @override
   void dispose() {
     inputNumber.dispose();
@@ -67,7 +77,7 @@ class _GuessNumberState extends State<GuessNumber> {
         children: [
           Row(
             children: [
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height / 4,
                 child: GridView.count(
@@ -87,11 +97,19 @@ class _GuessNumberState extends State<GuessNumber> {
                     Container(
                       decoration: BoxDecoration(border: Border.all()),
                       alignment: Alignment.center,
-                      child: Text(
-                        '$randomNumber',
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
+                      child: sentence != ''
+                          ? Text(
+                              '$randomNumber',
+                              style: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          : const Text(
+                              '?',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
                     ),
                     Container(
                       decoration: BoxDecoration(border: Border.all()),
@@ -130,16 +148,22 @@ class _GuessNumberState extends State<GuessNumber> {
               ),
             ),
           ),
-          inputNumber.text != '' ? ElevatedButton(
-            onPressed: () {
-              focusNode.unfocus();
-              checkingNumber();
-              getInput = '';
-            },
-            child: Text('確定'),
-          ) : ElevatedButton(
-            onPressed: () {},
-            child: Text('請輸入數字'),
+          inputNumber.text != ''
+              ? ElevatedButton(
+                  onPressed: () {
+                    focusNode.unfocus();
+                    checkingNumber();
+                    inputNumber.text = '';
+                  },
+                  child: const Text('確定'),
+                )
+              : ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('請輸入數字'),
+                ),
+          Text(
+            sentence,
+            style: const TextStyle(fontSize: 20),
           ),
         ],
       ),
