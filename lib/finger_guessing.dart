@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,7 @@ class FingerGuessing extends StatefulWidget {
   State<FingerGuessing> createState() => _FingerGuessing();
 }
 
-class _FingerGuessing extends State<FingerGuessing> {
+class _FingerGuessing extends State<FingerGuessing> with SingleTickerProviderStateMixin{
   //電腦方變數
   int cpuIndex = 1;
 
@@ -78,6 +79,16 @@ class _FingerGuessing extends State<FingerGuessing> {
     winText = '';
   }
 
+  //動畫試作
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller =
+        AnimationController(duration: const Duration(seconds: 3), vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,8 +112,14 @@ class _FingerGuessing extends State<FingerGuessing> {
           Container(
             // color: Colors.green,
             padding: const EdgeInsets.all(20),
-            height: MediaQuery.of(context).size.height / 6,
-            width: MediaQuery.of(context).size.width,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height / 6,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
             child: StatefulBuilder(
               builder: (context, setState) {
                 return GridView.builder(
@@ -124,8 +141,14 @@ class _FingerGuessing extends State<FingerGuessing> {
           ),
           //中間對決處
           SizedBox(
-            height: MediaQuery.of(context).size.height / 4,
-            width: MediaQuery.of(context).size.width,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height / 4,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -186,13 +209,13 @@ class _FingerGuessing extends State<FingerGuessing> {
                         height: 100,
                         child: tapIndex != 0
                             ? Image.asset(
-                                'assets/images/blue$tapIndex.png',
-                                fit: BoxFit.contain,
-                              )
+                          'assets/images/blue$tapIndex.png',
+                          fit: BoxFit.contain,
+                        )
                             : Image.asset(
-                                'assets/images/blue1.png',
-                                fit: BoxFit.contain,
-                              ),
+                          'assets/images/blue1.png',
+                          fit: BoxFit.contain,
+                        ),
                       ),
                       const Padding(
                         padding: EdgeInsets.only(top: 10.0),
@@ -220,8 +243,14 @@ class _FingerGuessing extends State<FingerGuessing> {
             padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: Container(
               alignment: Alignment.center,
-              height: MediaQuery.of(context).size.height / 10,
-              width: MediaQuery.of(context).size.width,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height / 10,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
               child: Text(
                 sentence,
                 style: const TextStyle(
@@ -240,8 +269,14 @@ class _FingerGuessing extends State<FingerGuessing> {
           //我方圖片
           Container(
             padding: const EdgeInsets.all(20),
-            height: MediaQuery.of(context).size.height / 6,
-            width: MediaQuery.of(context).size.width,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height / 6,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
             //用StatefulBuilder是為了下方點選後可以正常變更顏色
             child: StatefulBuilder(
               builder: (context, setState) {
@@ -266,13 +301,13 @@ class _FingerGuessing extends State<FingerGuessing> {
                       child: Container(
                         child: tapped
                             ? Image.asset(
-                                'assets/images/blue$index.png',
-                                fit: BoxFit.contain,
-                              )
+                          'assets/images/blue$index.png',
+                          fit: BoxFit.contain,
+                        )
                             : Image.asset(
-                                'assets/images/$index.jpg',
-                                fit: BoxFit.contain,
-                              ),
+                          'assets/images/$index.jpg',
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     );
                   },
@@ -284,27 +319,27 @@ class _FingerGuessing extends State<FingerGuessing> {
           //否則執行if的內容，如果點選後的變數不為0，按鈕文字就顯示為對決，否則顯示為請選擇
           sentence != ''
               ? ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      resetAllData();
-                    });
-                  },
-                  child: const Text('重新開始'),
-                )
+            onPressed: () {
+              setState(() {
+                resetAllData();
+              });
+            },
+            child: const Text('重新開始'),
+          )
               : ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      if (tapIndex != 0) {
-                        buttonText = '對決';
-                        cpuRandom();
-                        whoWin();
-                        winGame();
-                      } else {
-                        buttonText = '請選擇';
-                      }
-                    });
-                  },
-                  child: Text(buttonText)),
+              onPressed: () {
+                setState(() {
+                  if (tapIndex != 0) {
+                    buttonText = '對決';
+                    cpuRandom();
+                    whoWin();
+                    winGame();
+                  } else {
+                    buttonText = '請選擇';
+                  }
+                });
+              },
+              child: Text(buttonText)),
         ],
       ),
     );
