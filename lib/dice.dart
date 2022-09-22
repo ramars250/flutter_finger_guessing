@@ -8,10 +8,10 @@ class Dice extends StatefulWidget {
   State<Dice> createState() => _DiceState();
 }
 
-class _DiceState extends State<Dice> {
+class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
   //電腦方變數
-  int cpuLeftDice = Random().nextInt(6) + 1;
-  int cpuRightDice = Random().nextInt(6) + 1;
+  int cpuLeftDice = 0;
+  int cpuRightDice = 0;
 
   //電腦方總點數變數
   int cpuPoint = 0;
@@ -26,8 +26,8 @@ class _DiceState extends State<Dice> {
   }
 
   //我方變數
-  int leftDice = Random().nextInt(6) + 1;
-  int rightDice = Random().nextInt(6) + 1;
+  int leftDice = 0;
+  int rightDice = 0;
 
   //我方總點數變數
   int youPoint = 0;
@@ -87,6 +87,24 @@ class _DiceState extends State<Dice> {
     winText = '';
   }
 
+  //動畫試作
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 10),
+      vsync: this,
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,22 +129,33 @@ class _DiceState extends State<Dice> {
               ),
             ),
             //電腦方圖片
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 6,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Image.asset(
-                      'assets/images/dice$cpuLeftDice.png',
-                    ),
+            AnimatedBuilder(
+              animation: _controller,
+              builder: (BuildContext context, Widget? child) {
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height / 6,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: cpuLeftDice == 0
+                            ? Image.asset(
+                                'assets/images/dice${Random().nextInt(6)+1 * _controller.value ~/ 1 + 1}.png',
+                              )
+                            : Image.asset(
+                                'assets/images/dice$cpuLeftDice.png',
+                              ),
+                      ),
+                      Expanded(
+                        child: cpuRightDice == 0 ? Image.asset(
+                          'assets/images/dice${Random().nextInt(6)+1 * _controller.value ~/ 1 + 1}.png',
+                        ) : Image.asset(
+                          'assets/images/dice$cpuRightDice.png',
+                        ),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: Image.asset(
-                      'assets/images/dice$cpuRightDice.png',
-                    ),
-                  ),
-                ],
-              ),
+                );
+              },
             ),
             //中間對決處
             SizedBox(
@@ -235,28 +264,37 @@ class _DiceState extends State<Dice> {
             ),
             //我方文字
             const Text(
-              '你的選擇',
+              '你的骰子',
               style: TextStyle(
                 fontSize: 16,
               ),
             ),
             //我方圖片
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 6,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Image.asset(
-                      'assets/images/dice$leftDice.png',
-                    ),
+            AnimatedBuilder(
+              animation: _controller,
+              builder: (BuildContext context, Widget? child) {
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height / 6,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: leftDice == 0 ? Image.asset(
+                          'assets/images/dice${Random().nextInt(6)+1 * _controller.value ~/ 1 + 1}.png',
+                        ) : Image.asset(
+                          'assets/images/dice$leftDice.png',
+                        ),
+                      ),
+                      Expanded(
+                        child: rightDice == 0 ? Image.asset(
+                          'assets/images/dice${Random().nextInt(6)+1 * _controller.value ~/ 1 + 1}.png',
+                        ) : Image.asset(
+                          'assets/images/dice$rightDice.png',
+                        ),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: Image.asset(
-                      'assets/images/dice$rightDice.png',
-                    ),
-                  ),
-                ],
-              ),
+                );
+              },
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
@@ -270,13 +308,22 @@ class _DiceState extends State<Dice> {
                       child: const Text('重新開始'),
                     )
                   : ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         setState(() {
                           cpuGetNumber();
                           youGetNumber();
                           whoWin();
                           winGame();
                         });
+                        await Future.delayed(
+                          const Duration(
+                            seconds: 4,
+                          ),
+                        );
+                        cpuLeftDice = 0;
+                        cpuRightDice = 0;
+                        leftDice = 0;
+                        rightDice = 0;
                       },
                       child: const Text('請擲骰!')),
             ),
