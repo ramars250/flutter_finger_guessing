@@ -94,7 +94,7 @@ class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 10),
+      duration: const Duration(seconds: 12),
       vsync: this,
     )..repeat();
   }

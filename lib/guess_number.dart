@@ -138,7 +138,7 @@ class _GuessNumberState extends State<GuessNumber> {
               keyboardType: TextInputType.number,
               maxLength: 2,
               controller: inputNumber,
-              autofocus: true,
+              // autofocus: true,
               focusNode: focusNode,
               style: const TextStyle(fontSize: 20),
               decoration: const InputDecoration(
