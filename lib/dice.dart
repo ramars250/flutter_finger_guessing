@@ -139,18 +139,20 @@ class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
                       Expanded(
                         child: cpuLeftDice == 0
                             ? Image.asset(
-                                'assets/images/dice${Random().nextInt(6)+1 * _controller.value ~/ 1 + 1}.png',
+                                'assets/images/dice${Random().nextInt(6) + 1 * _controller.value ~/ 1 + 1}.png',
                               )
                             : Image.asset(
                                 'assets/images/dice$cpuLeftDice.png',
                               ),
                       ),
                       Expanded(
-                        child: cpuRightDice == 0 ? Image.asset(
-                          'assets/images/dice${Random().nextInt(6)+1 * _controller.value ~/ 1 + 1}.png',
-                        ) : Image.asset(
-                          'assets/images/dice$cpuRightDice.png',
-                        ),
+                        child: cpuRightDice == 0
+                            ? Image.asset(
+                                'assets/images/dice${Random().nextInt(6) + 1 * _controller.value ~/ 1 + 1}.png',
+                              )
+                            : Image.asset(
+                                'assets/images/dice$cpuRightDice.png',
+                              ),
                       ),
                     ],
                   ),
@@ -278,18 +280,22 @@ class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
                   child: Row(
                     children: [
                       Expanded(
-                        child: leftDice == 0 ? Image.asset(
-                          'assets/images/dice${Random().nextInt(6)+1 * _controller.value ~/ 1 + 1}.png',
-                        ) : Image.asset(
-                          'assets/images/dice$leftDice.png',
-                        ),
+                        child: leftDice == 0
+                            ? Image.asset(
+                                'assets/images/dice${Random().nextInt(6) + 1 * _controller.value ~/ 1 + 1}.png',
+                              )
+                            : Image.asset(
+                                'assets/images/dice$leftDice.png',
+                              ),
                       ),
                       Expanded(
-                        child: rightDice == 0 ? Image.asset(
-                          'assets/images/dice${Random().nextInt(6)+1 * _controller.value ~/ 1 + 1}.png',
-                        ) : Image.asset(
-                          'assets/images/dice$rightDice.png',
-                        ),
+                        child: rightDice == 0
+                            ? Image.asset(
+                                'assets/images/dice${Random().nextInt(6) + 1 * _controller.value ~/ 1 + 1}.png',
+                              )
+                            : Image.asset(
+                                'assets/images/dice$rightDice.png',
+                              ),
                       ),
                     ],
                   ),
@@ -332,4 +338,44 @@ class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
       ),
     );
   }
+}
+
+diceDirections(BuildContext context) {
+  // Init
+  AlertDialog dialog = AlertDialog(
+    title: const Text('骰子遊戲說明'),
+    actions: [
+      SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height / 2,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Image.asset(
+              'assets/images/03.jpg',
+              fit: BoxFit.contain,
+            ),
+            Container(
+                alignment: Alignment.bottomLeft,
+                child: const Text(
+                  '於此處按下請擲骰',
+                  style: TextStyle(color: Colors.black),
+                )),
+          ],
+        ),
+      ),
+      ElevatedButton(
+          child: const Text("OK"),
+          onPressed: () {
+            Navigator.pop(context);
+          }),
+    ],
+  );
+
+  // Show the dialog
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return dialog;
+      });
 }

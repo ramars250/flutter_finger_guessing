@@ -344,3 +344,42 @@ class _FingerGuessing extends State<FingerGuessing>
   }
 }
 
+fingerDirections(BuildContext context) {
+  // Init
+  AlertDialog dialog = AlertDialog(
+    title: const Text('猜拳遊戲說明'),
+    actions: [
+      SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height / 2,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Image.asset(
+              'assets/images/01.jpg',
+              fit: BoxFit.contain,
+            ),
+            Container(
+                alignment: Alignment.bottomLeft,
+                child: const Text(
+                  '於此處選擇你的拳法後\n點選下方對決按鈕',
+                  style: TextStyle(color: Colors.red),
+                )),
+          ],
+        ),
+      ),
+      ElevatedButton(
+          child: const Text("OK"),
+          onPressed: () {
+            Navigator.pop(context);
+          }),
+    ],
+  );
+
+  // Show the dialog
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return dialog;
+      });
+}

@@ -170,3 +170,43 @@ class _GuessNumberState extends State<GuessNumber> {
     );
   }
 }
+
+guessDirections(BuildContext context) {
+  // Init
+  AlertDialog dialog = AlertDialog(
+    title: const Text('終極密碼遊戲說明'),
+    actions: [
+      SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height / 2,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Image.asset(
+              'assets/images/02.jpg',
+              fit: BoxFit.contain,
+            ),
+            Container(
+                // alignment: Alignment.bottomLeft,
+                child: const Text(
+              '輸入您要猜的數字後\n點選下方按鈕',
+              style: TextStyle(color: Colors.red),
+            )),
+          ],
+        ),
+      ),
+      ElevatedButton(
+          child: const Text("OK"),
+          onPressed: () {
+            Navigator.pop(context);
+          }),
+    ],
+  );
+
+  // Show the dialog
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return dialog;
+      });
+}
