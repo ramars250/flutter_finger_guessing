@@ -85,7 +85,7 @@ class _FingerGuessing extends State<FingerGuessing>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 1),
+      duration: const Duration(milliseconds: 500),
       vsync: this,
     )..repeat();
   }
@@ -121,22 +121,18 @@ class _FingerGuessing extends State<FingerGuessing>
             padding: const EdgeInsets.all(20),
             height: MediaQuery.of(context).size.height / 6,
             width: MediaQuery.of(context).size.width,
-            child: StatefulBuilder(
-              builder: (context, setState) {
-                return GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 1,
-                    crossAxisSpacing: 20,
-                  ),
-                  itemCount: 3,
-                  itemBuilder: (context, i) {
-                    int index = i + 1;
-                    return Image.asset('assets/images/red$index.png',
-                        fit: BoxFit.contain);
-                  },
-                );
+            child: GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 1,
+                crossAxisSpacing: 20,
+              ),
+              itemCount: 3,
+              itemBuilder: (context, i) {
+                int index = i + 1;
+                return Image.asset('assets/images/red$index.png',
+                    fit: BoxFit.contain);
               },
             ),
           ),
@@ -269,40 +265,35 @@ class _FingerGuessing extends State<FingerGuessing>
             padding: const EdgeInsets.all(20),
             height: MediaQuery.of(context).size.height / 6,
             width: MediaQuery.of(context).size.width,
-            //用StatefulBuilder是為了下方點選後可以正常變更顏色
-            child: StatefulBuilder(
-              builder: (context, setState) {
-                return GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 1,
-                    crossAxisSpacing: 20,
-                  ),
-                  itemCount: 3,
-                  itemBuilder: (context, i) {
-                    int index = i + 1;
-                    bool tapped = index == tapIndex;
-                    //可點選
-                    return InkWell(
-                      onTap: () {
-                        setState(() {
-                          tapIndex = index;
-                        });
-                      },
-                      child: Container(
-                        child: tapped
-                            ? Image.asset(
-                                'assets/images/blue$index.png',
-                                fit: BoxFit.contain,
-                              )
-                            : Image.asset(
-                                'assets/images/$index.jpg',
-                                fit: BoxFit.contain,
-                              ),
-                      ),
-                    );
+            child: GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 1,
+                crossAxisSpacing: 20,
+              ),
+              itemCount: 3,
+              itemBuilder: (context, i) {
+                int index = i + 1;
+                bool tapped = index == tapIndex;
+                //可點選
+                return InkWell(
+                  onTap: () {
+                    setState(() {
+                      tapIndex = index;
+                    });
                   },
+                  child: Container(
+                    child: tapped
+                        ? Image.asset(
+                            'assets/images/blue$index.png',
+                            fit: BoxFit.contain,
+                          )
+                        : Image.asset(
+                            'assets/images/$index.jpg',
+                            fit: BoxFit.contain,
+                          ),
+                  ),
                 );
               },
             ),
@@ -332,7 +323,7 @@ class _FingerGuessing extends State<FingerGuessing>
                     });
                     await Future.delayed(
                       const Duration(
-                        seconds: 3,
+                        milliseconds: 1500,
                       ),
                     );
                     cpuIndex = 0;
