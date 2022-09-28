@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class GuessNumber extends StatefulWidget {
@@ -18,6 +17,7 @@ class _GuessNumberState extends State<GuessNumber> {
 
   //獲取輸入值變數
   int guessNumber = 0;
+  int whole = 0;
 
   //左邊的數字變數
   int smallNumber = 0;
@@ -87,11 +87,37 @@ class _GuessNumberState extends State<GuessNumber> {
                   children: [
                     Container(
                       decoration: BoxDecoration(border: Border.all()),
-                      alignment: Alignment.center,
-                      child: Text(
-                        '$smallNumber',
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                      child: TweenAnimationBuilder(
+                        duration: const Duration(milliseconds: 2500),
+                        tween: Tween(begin: 0.0, end: smallNumber.toDouble()),
+                        builder: (BuildContext context, double value, child) {
+                          whole = value ~/ 1;
+                          final decimal = value - whole;
+                          // print('$whole + $decimal');
+                          return Stack(
+                              alignment: Alignment.center,
+                              fit: StackFit.expand,
+                              children: [
+                                Positioned(
+                                  top: 34.0 + -100 * decimal ,
+                                  child: Text(
+                                    '$whole',
+                                    style: const TextStyle(
+                                        fontSize: 36,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 145.0 - decimal * 100,
+                                  child: Text(
+                                    '${whole + 1}',
+                                    style: const TextStyle(
+                                        fontSize: 36,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ]);
+                        },
                       ),
                     ),
                     Container(
@@ -113,11 +139,37 @@ class _GuessNumberState extends State<GuessNumber> {
                     ),
                     Container(
                       decoration: BoxDecoration(border: Border.all()),
-                      alignment: Alignment.center,
-                      child: Text(
-                        '$bigNumber',
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                      child: TweenAnimationBuilder(
+                        duration: const Duration(milliseconds: 2500),
+                        tween: Tween(end: bigNumber.toDouble()),
+                        builder: (BuildContext context, double value, child) {
+                          whole = value ~/ 1;
+                          final decimal = value - whole;
+                          // print('$whole + $decimal');
+                          return Stack(
+                              alignment: Alignment.center,
+                              fit: StackFit.expand,
+                              children: [
+                                Positioned(
+                                  top: 34.0 + -100 * decimal ,
+                                  child: Text(
+                                    '$whole',
+                                    style: const TextStyle(
+                                        fontSize: 36,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 145.0 - decimal * 100,
+                                  child: Text(
+                                    '${whole + 1}',
+                                    style: const TextStyle(
+                                        fontSize: 36,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ]);
+                        },
                       ),
                     ),
                   ],
@@ -186,12 +238,10 @@ guessDirections(BuildContext context) {
               'assets/images/02.jpg',
               fit: BoxFit.contain,
             ),
-            Container(
-                // alignment: Alignment.bottomLeft,
-                child: const Text(
+            const Text(
               '輸入您要猜的數字後\n點選下方按鈕',
               style: TextStyle(color: Colors.red),
-            )),
+            ),
           ],
         ),
       ),
