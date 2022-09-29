@@ -17,6 +17,8 @@ class _GuessNumberState extends State<GuessNumber> {
 
   //獲取輸入值變數
   int guessNumber = 0;
+
+  //除式取商的變數
   int whole = 0;
 
   //左邊的數字變數
@@ -33,15 +35,28 @@ class _GuessNumberState extends State<GuessNumber> {
     guessNumber = int.parse(getInput);
     setState(() {
       if (guessNumber < randomNumber) {
-        smallNumber = guessNumber;
+        if (smallNumber < guessNumber) {
+          smallNumber = guessNumber;
+        }
+
       } else {
         if (guessNumber > randomNumber) {
-          bigNumber = guessNumber;
+          if (bigNumber > guessNumber) {
+            bigNumber = guessNumber;
+          }
         } else {
           sentence = '猜中了';
         }
       }
     });
+  }
+  //重置所有變數
+  restartAll() {
+    smallNumber = 0;
+    bigNumber = 100;
+    randomNumber = Random().nextInt(100);
+    sentence = '';
+    inputNumber.text = '';
   }
 
   //結束文字
@@ -99,7 +114,7 @@ class _GuessNumberState extends State<GuessNumber> {
                               fit: StackFit.expand,
                               children: [
                                 Positioned(
-                                  top: 34.0 + -100 * decimal ,
+                                  top: 34.0 + -100 * decimal,
                                   child: Text(
                                     '$whole',
                                     style: const TextStyle(
@@ -128,13 +143,13 @@ class _GuessNumberState extends State<GuessNumber> {
                               '$randomNumber',
                               style: const TextStyle(
                                   color: Colors.red,
-                                  fontSize: 20,
+                                  fontSize: 36,
                                   fontWeight: FontWeight.bold),
                             )
                           : const Text(
                               '?',
                               style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+                                  fontSize: 36, fontWeight: FontWeight.bold),
                             ),
                     ),
                     Container(
@@ -151,7 +166,7 @@ class _GuessNumberState extends State<GuessNumber> {
                               fit: StackFit.expand,
                               children: [
                                 Positioned(
-                                  top: 34.0 + -100 * decimal ,
+                                  top: 34.0 + -100 * decimal,
                                   child: Text(
                                     '$whole',
                                     style: const TextStyle(
@@ -200,7 +215,14 @@ class _GuessNumberState extends State<GuessNumber> {
               ),
             ),
           ),
-          inputNumber.text != ''
+          sentence != '' ? ElevatedButton(
+            onPressed: () {
+              setState(() {
+                restartAll();
+              });
+            },
+            child: const Text('重新開始'),
+          ) : inputNumber.text != ''
               ? ElevatedButton(
                   onPressed: () {
                     focusNode.unfocus();
@@ -215,7 +237,7 @@ class _GuessNumberState extends State<GuessNumber> {
                 ),
           Text(
             sentence,
-            style: const TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 36),
           ),
         ],
       ),
