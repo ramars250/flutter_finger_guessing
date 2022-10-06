@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_finger_guessing/dice.dart';
 import 'package:flutter_finger_guessing/finger_guessing.dart';
 import 'package:flutter_finger_guessing/guess_number.dart';
+import 'package:flutter_finger_guessing/ox.dart';
 
 void main() => runApp(const MyApp());
 
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
         '/page1': (context) => const FingerGuessing(),
         '/page2': (context) => const GuessNumber(),
         '/page3': (context) => const Dice(),
+        '/page4': (context) => const Ox(),
       },
     );
   }
@@ -74,6 +76,19 @@ class FirstIndex extends StatelessWidget {
             onPressed: () {
               Navigator.pushNamed(context, '/page3');
               diceDirections(context);
+            },
+          ),
+          ElevatedButton(
+            child: const Text(
+              '井字遊戲',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, '/page4');
+
             },
           ),
         ],
